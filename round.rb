@@ -3,13 +3,30 @@ class Round
 
   def initialize(id, name, type, date)
     @id = id
-    @name = name
+    @name = name.gsub(/Single Round Match/, "SRM")
     @type = type
     @date = date
     @records = {1 => Array.new, 2 => Array.new}
   end
 
+  def has_records?
+    @records[1].length != 0 || @records[2].length != 0
+  end
+
   def add_record(record)
     @records[record.div] << record
+  end
+
+  def div_records(div)
+    @records[div]
+  end
+
+  def table_string
+    <<END
+<tr>
+<td><a href="rank/#{id}.html" class="eventText">#{name}</a></td>
+<td><span class="dateText">#{date}</span></td>
+</tr>
+END
   end
 end

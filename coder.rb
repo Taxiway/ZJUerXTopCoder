@@ -8,6 +8,6 @@ class Coder
   end
 
   def add_record(record)
-    records << record
+    @records << record
   end
 end

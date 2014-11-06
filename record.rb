@@ -15,4 +15,10 @@ class Record
     @vol = vol
   end
 
+  def table_string_round
+  end
+
+  def table_string_coder
+  end
+
 end

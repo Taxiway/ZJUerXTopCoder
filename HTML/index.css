@@ -1,0 +1,21 @@
+body {color:#FFF; background-color:#001B35;}
+
+.titleLine {background-color:#093158; color: #FC3; text-decoration: none;}
+table {color:#FFF; font-size: 14px;  font-weight: normal; text-decoration: none; font-family: Arial, Helvetica, Verdana, sans-serif; line-height: 1.4;}
+div {padding:10px;}
+td {padding:0 10px 0 10px;}
+
+h2 {font-size: 18px;}
+
+a {color:#FFF; text-decoration: none;}
+
+.eventText { color: #FF9900;}
+.dateText { color: #00A900;}
+.statText { color: #DDCC00;}
+.divAllRank {margin-left: auto; margin-right: auto; width: 1080px;}
+.divSRM {float: left; width: 300px;}
+.divTour {float: left; width: 350px;}
+.divToolStat {float: left; width: 350px;}
+.anounce {float: right; margin-top: 50px; width: 250px;}
+.hhanger {color: #EE0000; }
+.dual {color: #EE0000; }

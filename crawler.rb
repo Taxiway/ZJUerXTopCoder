@@ -34,8 +34,12 @@ class Crawler
     if (!File.exist?(file_path))
       url = ROUND + round.id
       downloader = Downloader.new(url)
-      xml_string = downloader.get_content.join("\n")
-      IO.write(file_path, xml_string)
+      begin
+        xml_string = downloader.get_content.join("\n")
+        IO.write(file_path, xml_string)
+      rescue OpenURI::HTTPError
+        puts "#{round.name} inavailable"
+      end
     end
   end
 
@@ -89,8 +93,9 @@ class Crawler
   end
 
   def init_directory
-    FileUtils.mkdir('Rounds') if (!File.exist?("Rounds"))
-    FileUtils.mkdir('Coders') if (!File.exist?("Coders"))
+    ["Rounds", "Coders", "HTML", "HTML/round", "HTML/coder"].each do |dir|
+      FileUtils.mkdir(dir) if (!File.exist?(dir))
+    end
   end
 
   def crawl_content_data
@@ -100,6 +105,7 @@ class Crawler
     rounds.each do |round|
       crawl_round(round)
     end
+    puts "Crawling done"
     rounds
   end
 end

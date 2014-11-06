@@ -1,4 +1,4 @@
-require 'rexml/document'
+require_relative 'record.rb'
 
 class Parser
 
@@ -19,22 +19,25 @@ class Parser
     coder_map = coders
     rounds.each do |round|
       file_path = "Rounds/#{round.id}.xml"
+      puts "Processing #{round.name}"
       if (!File.exist?(file_path))
         next
       end
-      xml = REXML::Document.new(IO.read(file_path))
 
-      xml.elements.each("//row") do |c|
-        coder_id = c.elements["coder_id"].get_text.value
+      xml_string = IO.read(file_path)
+      xml_string.scan(/<row>.*?<\/row>/).each do |str|
+        coder_id = str.match(/(?<=<coder_id>).*?(?=<)/)[0]
         if (!coder_map.has_key?(coder_id))
           next
         end
-        div = c.elements["division"].get_text.value.to_i
-        point = c.elements["final_points"].get_text.value
+        div = str.match(/(?<=<division>).*?(?=<)/)[0].to_i
+        point = str.match(/(?<=<final_points>).*?(?=<)/)[0]
         points = ["one", "two", "three"].map do |level|
-          case c.elements["level_#{level}_status"]
+          match = str.match(/(?<=<level_#{level}_status>).*?(?=<)/)
+          match = match[0] if !match.nil?
+          case match
           when "Passed System Test"
-            c.elements["level_#{level}_final_points"]
+            str.match(/(?<=<level_#{level}_final_points>).*?(?=<)/)[0]
           when "Failed System Test"
             :fail
           when "Compiled"
@@ -48,18 +51,17 @@ class Parser
           end
         end
         cha = [
-          c.elements["challenges_made_successful"].get_text.value.to_i,
-          c.elements["challenges_made_failed"].get_text.value.to_i
+          str.match(/(?<=<challenges_made_successful>).*?(?=<)/)[0].to_i,
+          str.match(/(?<=<challenges_made_failed>).*?(?=<)/)[0].to_i
         ]
-        old_rate = c.elements["old_rating"].get_text.value.to_i
-        new_rate = c.elements["new_rating"].get_text.value.to_i
-        vol = c.elements["new_vol"].get_text.value.to_i
+        old_rate = str.match(/(?<=<old_rating>).*?(?=<)/)[0].to_i
+        new_rate = str.match(/(?<=<new_rating>).*?(?=<)/)[0].to_i
+        vol = str.match(/(?<=<new_vol>).*?(?=<)/)[0].to_i
 
         record = Record.new(round.id, coder_id, div, point, points, cha,
                             old_rate, new_rate, vol)
         round.add_record(record)
-        coder_map.add_record(record)
-        p record
+        coder_map[coder_id].add_record(record)
       end
     end
   end
