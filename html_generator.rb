@@ -58,11 +58,22 @@ class HtmlGenerator
         write_header(f, round.name, ["../rank.css"])
         f.write('<h1><a href="http://www.topcoder.com/stat?c=round_stats&rd=#{round.id}" class="eventText">#{round.name}</a></h1>\n')
         f.write('<div>\n')
-        # Div 1
-        f.write('<h2>Div 1</h2>\n')
-        f.write('<table border="0" cellspacing="0" cellpadding="0"><tbody>\n')
-        f.write(ROUND_TABLE_HEADER)
-        round.div_records
+
+        # Div 1 & 2
+        [1, 2].each do |div|
+          records = round.div_records(div)
+          next if records.empty?
+          f.write('<h2>Div #{div}</h2>\n')
+          f.write('<table border="0" cellspacing="0" cellpadding="0"><tbody>\n')
+          f.write(ROUND_TABLE_HEADER)
+          records.each do |record|
+            f.write(record.table_string_round)
+          end
+          f.write('</tbody></table></div>\n')
+        end
+
+        # Back link
+        f.write(back_link_html(1))
       end
     end
   end

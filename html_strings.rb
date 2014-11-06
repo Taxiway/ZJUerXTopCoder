@@ -100,3 +100,11 @@ ROUND_TABLE_HEADER = <<END
 		<td><span>Volatility</span></td>
 	</tr>
 END
+
+def back_link_html(depth)
+  <<END
+<div class="backDiv">
+<h3><a href="#{"../" * depth}ZJUerXTCer.html" class="backLink">Back to homepage</h3>
+</div>
+END
+end

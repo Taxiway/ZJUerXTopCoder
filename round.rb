@@ -10,7 +10,7 @@ class Round
   end
 
   def has_records?
-    @records[1].length != 0 || @records[2].length != 0
+    !(@records[1].empty? && @records[2].empty?)
   end
 
   def add_record(record)
