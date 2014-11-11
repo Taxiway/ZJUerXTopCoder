@@ -1,11 +1,11 @@
 require_relative "util.rb"
 
 class Record
-  attr_reader :round_id, :coder_id, :div
-  attr_reader :point, :points, :cha, :old_rat, :new_rate, :vol
+  attr_reader :round_id, :coder_id, :name, :div, :rank
+  attr_reader :point, :points, :cha, :old_rat, :new_rate, :vol, :advanced, :type
 
   def initialize(round_id, coder_id, name, div, rank, point, points, cha,
-                 old_rate, new_rate, vol, advanced)
+                 old_rate, new_rate, vol, advanced, type)
     @round_id = round_id
     @coder_id = coder_id
     @name = name
@@ -18,6 +18,7 @@ class Record
     @new_rate = new_rate
     @vol = vol
     @advanced = advanced
+    @type = type
   end
 
   def cha_score
@@ -25,11 +26,14 @@ class Record
   end
 
   def table_string_round
-    <<END
+    s1 = <<END
 	<tr>
 		<td><a href="http://www.topcoder.com/stat?c=coder_room_stats&rd=#{@round_id}&cr=#{@coder_id}">#{@rank}</a></td>
 		<td><a href="../coder/#{@coder_id}.html" class="coderText#{Util.rating_color(@old_rate)}">#{@name}</a></td>
 		<td><span>#{@point}</span></td>
+END
+    s2 = (type == :tour ? "<td><span>#{@advanced}</span></td>" : "")
+    s3 = <<END
 		<td><span class="statusText#{Util.status_color(@points[0])}">#{@points[0]}</span></td>
 		<td><span class="statusText#{Util.status_color(@points[1])}">#{@points[1]}</span></td>
 		<td><span class="statusText#{Util.status_color(@points[2])}">#{@points[2]}</span></td>
@@ -41,6 +45,7 @@ class Record
 		<td><span>#{@vol}</span></td>
 	</tr>
 END
+    s1 + s2 + s3
   end
 
   def table_string_coder

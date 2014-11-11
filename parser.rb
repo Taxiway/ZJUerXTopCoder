@@ -34,7 +34,11 @@ class Parser
         name = coder_map[coder_id].name
         div = str.match(/(?<=<division>).*?(?=<)/)[0].to_i
         rank = str.match(/(?<=<division_placed>).*?(?=<)/)
-        rank = rank[0].to_i if !rank.nil?
+        if rank.nil?
+          rank = "-"
+        else
+          rank = rank[0].to_i
+        end
         point = str.match(/(?<=<final_points>).*?(?=<)/)[0]
         points = ["one", "two", "three"].map do |level|
           match = str.match(/(?<=<level_#{level}_status>).*?(?=<)/)
@@ -56,9 +60,10 @@ class Parser
         new_rate = str.match(/(?<=<new_rating>).*?(?=<)/)[0].to_i
         vol = str.match(/(?<=<new_vol>).*?(?=<)/)[0].to_i
         advanced = str.match(/(?<=<advanced>).*?(?=<)/)[0]
+        type = round.type
 
         record = Record.new(round.id, coder_id, name, div, rank, point, points,
-                            cha, old_rate, new_rate, vol, advanced)
+                            cha, old_rate, new_rate, vol, advanced, type)
         round.add_record(record)
         coder_map[coder_id].add_record(record)
       end

@@ -108,3 +108,23 @@ def back_link_html(depth)
 </div>
 END
 end
+
+def round_table_header(tour)
+  <<END
+	<tr class="titleLine">
+		<td><span>Rank</span></td>
+		<td><span>Handle</span></td>
+		<td><span>Points</span></td>
+#{tour ? "<td><span>Advanced</span></td>" : ""}
+		<td><span>Level 1</span></td>
+		<td><span>Level 2</span></td>
+		<td><span>Level 3</span></td>
+		<td><span>Challenge</span></td>
+		<td><span>Challenge Points</span></td>
+		<td><span>Old Rating</span></td>
+		<td><span>New Rating</span></td>
+		<td><span>Rating Change</span></td>
+		<td><span>Volatility</span></td>
+	</tr>
+END
+end

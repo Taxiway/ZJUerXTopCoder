@@ -65,7 +65,20 @@ class HtmlGenerator
           f.write("<div>\n")
           f.write("<h2>Div #{div}</h2>\n")
           f.write("<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>\n")
-          f.write(ROUND_TABLE_HEADER)
+          f.write(round_table_header(round.type == :tour))
+          records.sort! do |a, b|
+            if a.rank == b.rank
+              a.name <=> b.name
+            else
+              if a.rank == "-"
+                1
+              elsif b.rank == "-"
+                -1
+              else
+                a.rank.to_i <=> b.rank.to_i
+              end
+            end
+          end
           records.each do |record|
             f.write(record.table_string_round)
           end
