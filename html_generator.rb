@@ -55,36 +55,10 @@ class HtmlGenerator
   def gen_round(round)
     File.open("HTML/round/#{round.id}.html", "w") do |f|
       wrap_html_body(f) do
-        write_header(f, round.name, ["../rank.css"])
+        write_header(f, round.name, ["../round.css"])
         f.write("<h1><a href=\"http://www.topcoder.com/stat?c=round_stats&rd=#{round.id}\" class=\"eventText\">#{round.name}</a></h1>\n")
 
-        # Div 1 & 2
-        [1, 2].each do |div|
-          records = round.div_records(div)
-          next if records.empty?
-          f.write("<div>\n")
-          f.write("<h2>Div #{div}</h2>\n")
-          f.write("<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>\n")
-          f.write(round_table_header(round.type == :tour))
-          records.sort! do |a, b|
-            if a.rank == b.rank
-              a.name <=> b.name
-            else
-              if a.rank == "-"
-                1
-              elsif b.rank == "-"
-                -1
-              else
-                a.rank.to_i <=> b.rank.to_i
-              end
-            end
-          end
-          records.each do |record|
-            f.write(record.table_string_round)
-          end
-          f.write("</tbody></table></div>\n")
-        end
-
+        round.write_records_html(f)
         # Back link
         f.write(back_link_html(1))
       end
@@ -92,12 +66,24 @@ class HtmlGenerator
   end
 
   def gen_coder(coder)
+    File.open("HTML/coder/#{coder.id}.html", "w") do |f|
+      wrap_html_body(f) do
+        write_header(f, coder.name, ["../coder.css"])
+        f.write("<h1><a href=\"http://www.topcoder.com/tc?module=MemberProfile&cr=#{coder.id}\" class=\"ratingTextYellow\">#{coder.name}</a></h1>\n")
+        f.write("<div class=\"statDualDiv\">\n")
+        f.write(coder.stat_table_html)
+        coder.write_con_table_html(f)
+        f.write("</div>\n")
+        coder.write_history_table_html(f)
+        f.write(back_link_html(1))
+      end
+    end
   end
 
   def gen_all(rounds, coders)
     gen_index(rounds)
     rounds.each {|round| gen_round(round) if round.has_records?}
-    #coders.each {|coder| gen_coder(coder) if coder.has_records?}
+    coders.each_value {|coder| gen_coder(coder) if coder.has_records?}
   end
 
 end

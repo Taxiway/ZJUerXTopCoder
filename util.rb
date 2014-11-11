@@ -3,7 +3,7 @@ class Util
   def self.rating_color(rating)
     case rating
     when 0
-      "Write"
+      "White"
     when 1...900
       "Gray"
     when 900...1200
