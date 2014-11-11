@@ -1,4 +1,4 @@
-require_relative "html_string.rb"
+require_relative "html_strings.rb"
 
 class HtmlGenerator
 
@@ -9,10 +9,10 @@ class HtmlGenerator
   end
 
   def write_header(f, title, css)
-    f.write('<head><meta http-equiv=Content-Type content="text/html; charset=utf-8">\n')
+    f.write("<head><meta http-equiv=Content-Type content=\"text/html; charset=utf-8\">\n")
     f.write("<title>#{title}</title>\n")
     css.each do |c|
-      f.write('<link rel="stylesheet" href="#{c}" type="text/css" />\n')
+      f.write("<link rel=\"stylesheet\" href=\"#{c}\" type=\"text/css\" />\n")
     end
     f.write("</head>\n")
   end
@@ -21,30 +21,30 @@ class HtmlGenerator
     File.open("HTML/ZJUerXTCer.html", "w") do |f|
       wrap_html_body(f) do
         write_header(f, "ZJUerXTopCoder", ["index.css"])
-        f.write('<h1 align="center">ZJUer X TopCoder</h1>\n')
-        f.write('<div class="divAllRank">\n')
+        f.write("<h1 align=\"center\">ZJUer X TopCoder</h1>\n")
+        f.write("<div class=\"divAllRank\">\n")
 
         # SRMs
-        f.write('<div class="divSRM">\n')
-        f.write('<h2>Single Round Match</h2>\n')
-        f.write('<table border="0" cellspacing="0" cellpadding="0"><tbody>\n')
-        f.write('<tr class="titleLine"><td><span>Event</span></td><td><span>Date</span></td></tr>\n')
+        f.write("<div class=\"divSRM\">\n")
+        f.write("<h2>Single Round Match</h2>\n")
+        f.write("<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>\n")
+        f.write("<tr class=\"titleLine\"><td><span>Event</span></td><td><span>Date</span></td></tr>\n")
         srms = rounds.select {|round| round.type == :srm}
         srms.reverse_each do |round|
-          f.write("#{round.table_string}\n")
+          f.write("#{round.table_string}\n") if round.has_records?
         end
-        f.write('</tbody></table></div>\n')
+        f.write("</tbody></table></div>\n")
 
         # Tours
-        f.write('<div class="divTour">\n')
-        f.write('<h2>Tournament</h2>\n')
-        f.write('<table border="0" cellspacing="0" cellpadding="0"><tbody>\n')
-	f.write('<tr class="titleLine"><td><span>Event</span></td><td><span>Date</span></td></tr>\n')
+        f.write("<div class=\"divTour\">\n")
+        f.write("<h2>Tournament</h2>\n")
+        f.write("<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>\n")
+	f.write("<tr class=\"titleLine\"><td><span>Event</span></td><td><span>Date</span></td></tr>\n")
         tours = rounds.select {|round| round.type == :tour}
         tours.reverse_each do |round|
-          f.write("#{round.table_string}\n")
+          f.write("#{round.table_string}\n") if round.has_records?
         end
-        f.write('</tbody></table></div>\n')
+        f.write("</tbody></table></div>\n")
 
         # Stats & Others
         f.write(INDEX_SIDE_BAR)
@@ -56,20 +56,20 @@ class HtmlGenerator
     File.open("HTML/round/#{round.id}.html", "w") do |f|
       wrap_html_body(f) do
         write_header(f, round.name, ["../rank.css"])
-        f.write('<h1><a href="http://www.topcoder.com/stat?c=round_stats&rd=#{round.id}" class="eventText">#{round.name}</a></h1>\n')
-        f.write('<div>\n')
+        f.write("<h1><a href=\"http://www.topcoder.com/stat?c=round_stats&rd=#{round.id}\" class=\"eventText\">#{round.name}</a></h1>\n")
 
         # Div 1 & 2
         [1, 2].each do |div|
           records = round.div_records(div)
           next if records.empty?
-          f.write('<h2>Div #{div}</h2>\n')
-          f.write('<table border="0" cellspacing="0" cellpadding="0"><tbody>\n')
+          f.write("<div>\n")
+          f.write("<h2>Div #{div}</h2>\n")
+          f.write("<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody>\n")
           f.write(ROUND_TABLE_HEADER)
           records.each do |record|
             f.write(record.table_string_round)
           end
-          f.write('</tbody></table></div>\n')
+          f.write("</tbody></table></div>\n")
         end
 
         # Back link
@@ -84,7 +84,7 @@ class HtmlGenerator
   def gen_all(rounds, coders)
     gen_index(rounds)
     rounds.each {|round| gen_round(round) if round.has_records?}
-    coders.each {|coder| gen_coder(coder)}
+    #coders.each {|coder| gen_coder(coder) if coder.has_records?}
   end
 
 end

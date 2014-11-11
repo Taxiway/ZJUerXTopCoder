@@ -25,6 +25,7 @@ class Parser
       end
 
       xml_string = IO.read(file_path)
+      xml_string = xml_string.encode("UTF-16be", :invalid=>:replace, :replace=>"?").encode('UTF-8') if !xml_string.valid_encoding?
       xml_string.scan(/<row>.*?<\/row>/).each do |str|
         coder_id = str.match(/(?<=<coder_id>).*?(?=<)/)[0]
         if (!coder_map.has_key?(coder_id))
@@ -32,7 +33,8 @@ class Parser
         end
         name = coder_map[coder_id].name
         div = str.match(/(?<=<division>).*?(?=<)/)[0].to_i
-        rank = str.match(/(?<=<division_placed>).*?(?=<)/)[0].to_i
+        rank = str.match(/(?<=<division_placed>).*?(?=<)/)
+        rank = rank[0].to_i if !rank.nil?
         point = str.match(/(?<=<final_points>).*?(?=<)/)[0]
         points = ["one", "two", "three"].map do |level|
           match = str.match(/(?<=<level_#{level}_status>).*?(?=<)/)
@@ -40,16 +42,10 @@ class Parser
           case match
           when "Passed System Test"
             str.match(/(?<=<level_#{level}_final_points>).*?(?=<)/)[0]
-          when "Failed System Test"
-            :fail
-          when "Compiled"
-            :compiled
-          when "Opened"
-            :opened
-          when "Challenge Succeeded"
-            :che
+          when nil
+            "Unopened"
           else
-            :unopened
+            match
           end
         end
         cha = [
@@ -67,5 +63,6 @@ class Parser
         coder_map[coder_id].add_record(record)
       end
     end
+    coder_map
   end
 end

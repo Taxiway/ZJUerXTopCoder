@@ -7,6 +7,10 @@ class Coder
     @records = Array.new
   end
 
+  def has_records?
+    !(@records[1].empty? && @records[2].empty?)
+  end
+
   def add_record(record)
     @records << record
   end

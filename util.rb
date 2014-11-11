@@ -20,7 +20,36 @@ class Util
   end
 
   def self.status_color(status)
+    case status
+    when "Challenge Succeeded"
+      "Green"
+    when "Failed System Test"
+      "Red"
+    when /\./ #Some points
+      "Golden"
+    else
+      "White"
+    end
+  end
 
+  def self.cha_score_color(score)
+    if (score > 0)
+      "Green"
+    elsif (score < 0)
+      "Red"
+    else
+      "White"
+    end
+  end
+
+  def self.rate_change_html(delta)
+    if (delta > 0)
+      "<td><span class=\"ratingChangeInc\"><img src=\"../arrow_green_up.gif\"/>#{delta}</span></td>"
+    elsif (delta < 0)
+      "<td><span class=\"ratingChangeDec\"><img src=\"../arrow_red_down.gif\"/>#{-delta}</span></td>"
+    else
+      "<td><span class=\"ratingChangeNo\">0</span></td>"
+    end
   end
 
 end

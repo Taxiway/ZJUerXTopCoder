@@ -2,6 +2,7 @@ require_relative "html_downloader.rb"
 require_relative "round.rb"
 require_relative "coder.rb"
 require_relative "parser.rb"
+require_relative "html_generator.rb"
 require 'rexml/document'
 require "fileutils"
 
@@ -113,4 +114,6 @@ end
 crawler = Crawler.new
 rounds = crawler.crawl_content_data
 parser = Parser.new
-parser.parse_rounds(rounds)
+coders = parser.parse_rounds(rounds)
+generator = HtmlGenerator.new
+generator.gen_all(rounds, coders)

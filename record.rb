@@ -20,22 +20,25 @@ class Record
     @advanced = advanced
   end
 
+  def cha_score
+    @cha[0] * 50 - @cha[1] * 25
+  end
+
   def table_string_round
-    color = Util.rating_color(old_rate)
     <<END
 	<tr>
 		<td><a href="http://www.topcoder.com/stat?c=coder_room_stats&rd=#{@round_id}&cr=#{@coder_id}">#{@rank}</a></td>
-		<td><a href="../coder/#{@coder_id}.html" class="coderText#{color}">#{name}</a></td>
-		<td><span>#{point}</span></td>
-		<td><span class="statusTextGolden">201.42</span></td>
-		<td><span class="statusTextWhite">Opened</span></td>
-		<td><span class="statusTextWhite">Unopened</span></td>
-		<td><span>0/0</span></td>
-		<td><span class="scoreTextWhite">0.0</span></td>
-		<td><span class="ratingTextGray">802</span></td>
-		<td><span class="ratingTextGray">766</span></td>
-		<td><span class="ratingChangeDec"><img src="arrow_red_down.gif"/>36</span></td>
-		<td><span>276</span></td>
+		<td><a href="../coder/#{@coder_id}.html" class="coderText#{Util.rating_color(@old_rate)}">#{@name}</a></td>
+		<td><span>#{@point}</span></td>
+		<td><span class="statusText#{Util.status_color(@points[0])}">#{@points[0]}</span></td>
+		<td><span class="statusText#{Util.status_color(@points[1])}">#{@points[1]}</span></td>
+		<td><span class="statusText#{Util.status_color(@points[2])}">#{@points[2]}</span></td>
+		<td><span>#{@cha[0]}/#{@cha[1]}</span></td>
+		<td><span class="scoreText#{Util.cha_score_color(cha_score)}">#{cha_score}.0</span></td>
+		<td><span class="ratingText#{Util.rating_color(@old_rate)}">#{@old_rate}</span></td>
+		<td><span class="ratingText#{Util.rating_color(@new_rate)}">#{@new_rate}</span></td>
+		#{Util.rate_change_html(@new_rate - @old_rate)}
+		<td><span>#{@vol}</span></td>
 	</tr>
 END
   end

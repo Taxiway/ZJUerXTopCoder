@@ -4,6 +4,7 @@ class Round
   def initialize(id, name, type, date)
     @id = id
     @name = name.gsub(/Single Round Match/, "SRM")
+    @name = @name.gsub(/ - TCO14 Wildcard Sweep/, "")
     @type = type
     @date = date
     @records = {1 => Array.new, 2 => Array.new}
@@ -24,7 +25,7 @@ class Round
   def table_string
     <<END
 <tr>
-<td><a href="rank/#{id}.html" class="eventText">#{name}</a></td>
+<td><a href="round/#{id}.html" class="eventText">#{name}</a></td>
 <td><span class="dateText">#{date}</span></td>
 </tr>
 END
