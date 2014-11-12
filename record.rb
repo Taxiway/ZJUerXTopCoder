@@ -1,7 +1,9 @@
+require 'date'
 require_relative "util.rb"
+
 class Record
   attr_reader :round, :coder, :div, :rank
-  attr_reader :point, :points, :cha, :old_rat, :new_rate, :vol, :advanced
+  attr_reader :point, :points, :cha, :old_rate, :new_rate, :vol, :advanced
 
   def initialize(round, coder, div, rank, point,
                  points, cha, old_rate, new_rate, vol, advanced)
@@ -38,8 +40,33 @@ class Record
     @round.type
   end
 
-  def cha_score
+  def date
+    DateTime.new(*(@round.date.split(/ |:|-/).map(&:to_i)))
+  end
+
+  def cha_points
     @cha[0] * 50 - @cha[1] * 25
+  end
+
+  def submits
+    @points.count {|st| st != "Opened" && st != "Unopened" && st != "Compiled"}
+  end
+
+  def solves
+    @points.count {|st| st =~ /\./}
+  end
+
+  def cha_suc
+    @cha[0]
+  end
+
+  def cha_fail
+    @cha[1]
+  end
+
+  def cha_text
+    (@cha[0] == 0 ? "0" : "+" + @cha[0].to_s) + "/" +
+      (@cha[1] == 0 ? "0" : "-" + @cha[1].to_s)
   end
 
   def table_string_round
@@ -54,8 +81,8 @@ END
 		<td><span class="statusText#{Util.status_color(@points[0])}">#{@points[0]}</span></td>
 		<td><span class="statusText#{Util.status_color(@points[1])}">#{@points[1]}</span></td>
 		<td><span class="statusText#{Util.status_color(@points[2])}">#{@points[2]}</span></td>
-		<td><span>#{@cha[0]}/#{@cha[1]}</span></td>
-		<td><span class="scoreText#{Util.cha_score_color(cha_score)}">#{cha_score}.0</span></td>
+		<td><span>#{cha_text}</span></td>
+		<td><span class="scoreText#{Util.cha_score_color(cha_points)}">#{cha_points}.0</span></td>
 		<td><span class="ratingText#{Util.rating_color(@old_rate)}">#{@old_rate}</span></td>
 		<td><span class="ratingText#{Util.rating_color(@new_rate)}">#{@new_rate}</span></td>
 		#{Util.rate_change_html(@new_rate - @old_rate)}
@@ -68,15 +95,15 @@ END
   def table_string_coder
 <<END
 	<tr>
-		<td><a href="../rank/#{round_id}.html" class="eventText">#{round_name}</a></td>
+		<td><a href="../round/#{round_id}.html" class="eventText">#{round_name}</a></td>
 		<td><span>#{@div}</span></td>
 		<td><span>#{@rank}</span></td>
 		<td><span>#{@point}</span></td>
 		<td><span class="statusText#{Util.status_color(@points[0])}">#{@points[0]}</span></td>
 		<td><span class="statusText#{Util.status_color(@points[1])}">#{@points[1]}</span></td>
 		<td><span class="statusText#{Util.status_color(@points[2])}">#{@points[2]}</span></td>
-		<td><span>#{@cha[0]}/#{@cha[1]}</span></td>
-		<td><span class="scoreText#{Util.cha_score_color(cha_score)}">#{cha_score}.0</span></td>
+		<td><span>#{cha_text}</span></td>
+		<td><span class="scoreText#{Util.cha_score_color(cha_points)}">#{cha_points}.0</span></td>
 		<td><span class="ratingText#{Util.rating_color(@new_rate)}">#{@new_rate}</span></td>
 		#{Util.rate_change_html(@new_rate - @old_rate)}
 		<td><span>#{@vol}</span></td>

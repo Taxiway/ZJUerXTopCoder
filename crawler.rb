@@ -38,7 +38,7 @@ class Crawler
       begin
         xml_string = downloader.get_content.join("\n")
         IO.write(file_path, xml_string)
-      rescue OpenURI::HTTPError
+      rescue OpenURI::HTTPError, SocketError
         puts "#{round.name} inavailable"
       end
     end

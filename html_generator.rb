@@ -1,4 +1,5 @@
 require_relative "html_strings.rb"
+require_relative "stats.rb"
 
 class HtmlGenerator
 
@@ -65,14 +66,14 @@ class HtmlGenerator
     end
   end
 
-  def gen_coder(coder)
+  def gen_coder(coder, coders)
     File.open("HTML/coder/#{coder.id}.html", "w") do |f|
       wrap_html_body(f) do
         write_header(f, coder.name, ["../coder.css"])
         f.write("<h1><a href=\"http://www.topcoder.com/tc?module=MemberProfile&cr=#{coder.id}\" class=\"ratingText#{Util.rating_color(coder.rating)}\">#{coder.name}</a></h1>\n")
         f.write("<div class=\"statDualDiv\">\n")
         f.write(coder.stat_table_html)
-        coder.write_con_table_html(f)
+        coder.write_con_table_html(f, coders)
         f.write("</div>\n")
         coder.write_history_table_html(f)
         f.write(back_link_html(1))
@@ -82,8 +83,12 @@ class HtmlGenerator
 
   def gen_all(rounds, coders)
     gen_index(rounds)
+
     rounds.each {|round| gen_round(round) if round.has_records?}
-    coders.each_value {|coder| gen_coder(coder) if coder.has_records?}
+    coders.each_value {|coder| gen_coder(coder, coders) if coder.has_records?}
+
+    stats = Stats.new
+    stats.gen_all(rounds, coders)
   end
 
 end

@@ -66,6 +66,7 @@ class Parser
         round.add_record(record)
         coder_map[coder_id].add_record(record)
       end
+      round.dual(coder_map)
     end
     coder_map
   end

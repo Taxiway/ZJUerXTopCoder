@@ -24,6 +24,19 @@ class Round
     @records[div]
   end
 
+  def records
+    @records[1] + @records[2]
+  end
+
+  def dual(coders)
+    [1, 2].each do |div|
+      records = div_records(div)
+      records.each do |record|
+        coders[record.coder_id].dual(record, records)
+      end
+    end
+  end
+
   def write_records_html(f)
     # Div 1 & 2
     [1, 2].each do |div|
