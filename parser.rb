@@ -31,8 +31,7 @@ class Parser
         if (!coder_map.has_key?(coder_id))
           next
         end
-        round_name = round.name
-        name = coder_map[coder_id].name
+        coder = coder_map[coder_id]
         div = str.match(/(?<=<division>).*?(?=<)/)[0].to_i
         rank = str.match(/(?<=<division_placed>).*?(?=<)/)
         if rank.nil?
@@ -61,11 +60,9 @@ class Parser
         new_rate = str.match(/(?<=<new_rating>).*?(?=<)/)[0].to_i
         vol = str.match(/(?<=<new_vol>).*?(?=<)/)[0].to_i
         advanced = str.match(/(?<=<advanced>).*?(?=<)/)[0]
-        type = round.type
 
-        record = Record.new(round.id, round_name, coder_id, name, div, rank,
-                            point, points, cha, old_rate, new_rate, vol,
-                            advanced, type)
+        record = Record.new(round, coder, div, rank, point, points, cha,
+                            old_rate, new_rate, vol, advanced)
         round.add_record(record)
         coder_map[coder_id].add_record(record)
       end

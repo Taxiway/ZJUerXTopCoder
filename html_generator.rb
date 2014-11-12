@@ -69,7 +69,7 @@ class HtmlGenerator
     File.open("HTML/coder/#{coder.id}.html", "w") do |f|
       wrap_html_body(f) do
         write_header(f, coder.name, ["../coder.css"])
-        f.write("<h1><a href=\"http://www.topcoder.com/tc?module=MemberProfile&cr=#{coder.id}\" class=\"ratingTextYellow\">#{coder.name}</a></h1>\n")
+        f.write("<h1><a href=\"http://www.topcoder.com/tc?module=MemberProfile&cr=#{coder.id}\" class=\"ratingText#{Util.rating_color(coder.rating)}\">#{coder.name}</a></h1>\n")
         f.write("<div class=\"statDualDiv\">\n")
         f.write(coder.stat_table_html)
         coder.write_con_table_html(f)

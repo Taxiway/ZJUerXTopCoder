@@ -1,5 +1,5 @@
 class Coder
-  attr_reader :id, :name
+  attr_reader :id, :name, :rating
 
   def initialize(id, name)
     @id = id
@@ -16,11 +16,18 @@ class Coder
     @records = Array.new
   end
 
+  def handle_record(record)
+    @rating = record.new_rate
+    @max_rating = [@max_rating, @rating].max
+    @events += 1
+  end
+
   def has_records?
     !@records.empty?
   end
 
   def add_record(record)
+    handle_record(record)
     @records << record
   end
 

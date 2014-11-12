@@ -1,14 +1,12 @@
 require_relative "util.rb"
 class Record
-  attr_reader :round_id, :round_name, :coder_id, :coder_name, :div, :rank
-  attr_reader :point, :points, :cha, :old_rat, :new_rate, :vol, :advanced, :type
+  attr_reader :round, :coder, :div, :rank
+  attr_reader :point, :points, :cha, :old_rat, :new_rate, :vol, :advanced
 
-  def initialize(round_id, round_name, coder_id, coder_name, div, rank, point,
-                 points, cha, old_rate, new_rate, vol, advanced, type)
-    @round_id = round_id
-    @round_name = round_name
-    @coder_id = coder_id
-    @coder_name = coder_name
+  def initialize(round, coder, div, rank, point,
+                 points, cha, old_rate, new_rate, vol, advanced)
+    @round = round
+    @coder = coder
     @div = div
     @rank = rank
     @point = point
@@ -18,7 +16,26 @@ class Record
     @new_rate = new_rate
     @vol = vol
     @advanced = advanced
-    @type = type
+  end
+
+  def round_id
+    @round.id
+  end
+
+  def round_name
+    @round.name
+  end
+
+  def coder_id
+    @coder.id
+  end
+
+  def coder_name
+    @coder.name
+  end
+
+  def type
+    @round.type
   end
 
   def cha_score
@@ -28,8 +45,8 @@ class Record
   def table_string_round
     s1 = <<END
 	<tr>
-		<td><a href="http://www.topcoder.com/stat?c=coder_room_stats&rd=#{@round_id}&cr=#{@coder_id}">#{@rank}</a></td>
-		<td><a href="../coder/#{@coder_id}.html" class="coderText#{Util.rating_color(@old_rate)}">#{@coder_name}</a></td>
+		<td><a href="http://www.topcoder.com/stat?c=coder_room_stats&rd=#{round_id}&cr=#{coder_id}">#{@rank}</a></td>
+		<td><a href="../coder/#{coder_id}.html" class="coderText#{Util.rating_color(@old_rate)}">#{coder_name}</a></td>
 		<td><span>#{@point}</span></td>
 END
     s2 = (type == :tour ? "<td><span>#{@advanced}</span></td>" : "")
@@ -51,7 +68,7 @@ END
   def table_string_coder
 <<END
 	<tr>
-		<td><a href="../rank/#{@round_id}.html" class="eventText">#{@round_name}</a></td>
+		<td><a href="../rank/#{round_id}.html" class="eventText">#{round_name}</a></td>
 		<td><span>#{@div}</span></td>
 		<td><span>#{@rank}</span></td>
 		<td><span>#{@point}</span></td>
