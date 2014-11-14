@@ -28,6 +28,10 @@ class Round
     @records[1] + @records[2]
   end
 
+  def onsite?
+    @name =~ /Finals|Semi|Wildcard|Championship/
+  end
+
   def dual(coders)
     [1, 2].each do |div|
       records = div_records(div)

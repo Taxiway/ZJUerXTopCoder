@@ -94,7 +94,7 @@ class Crawler
   end
 
   def init_directory
-    ["Rounds", "Coders", "HTML", "HTML/round", "HTML/coder"].each do |dir|
+    ["Rounds", "Coders", "HTML", "HTML/round", "HTML/coder", "HTML/stats"].each do |dir|
       FileUtils.mkdir(dir) if (!File.exist?(dir))
     end
   end

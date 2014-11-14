@@ -1,23 +1,10 @@
 require_relative "html_strings.rb"
 require_relative "stats.rb"
+require_relative "html_writer.rb"
 
 class HtmlGenerator
 
-  def wrap_html_body(f)
-    f.write("<html><body>\n")
-    yield
-    f.write("</body></html>\n")
-  end
-
-  def write_header(f, title, css)
-    f.write("<head><meta http-equiv=Content-Type content=\"text/html; charset=utf-8\">\n")
-    f.write("<title>#{title}</title>\n")
-    css.each do |c|
-      f.write("<link rel=\"stylesheet\" href=\"#{c}\" type=\"text/css\" />\n")
-    end
-    f.write("</head>\n")
-  end
-
+  include HtmlWriter
   def gen_index(rounds)
     File.open("HTML/ZJUerXTCer.html", "w") do |f|
       wrap_html_body(f) do

@@ -1,0 +1,38 @@
+/* Orange */
+.ratingTextOrange, .coderTextOrange, .coderTextOrange:link, .coderTextOrange:visited, .coderTextOrange:hover, .coderTextOrange:active { color: #FF9900; }
+/* Red */
+.ratingTextRed, .coderTextRed, .coderTextRed:link, .coderTextRed:visited, .coderTextRed:hover, .coderTextRed:active { color: #EE0000; }
+/* Yellow */
+.ratingTextYellow, .coderTextYellow, .coderTextYellow:link, .coderTextYellow:visited, .coderTextYellow:hover, .coderTextYellow:active { color: #DDCC00; }
+/* Blue */
+.ratingTextBlue, .coderTextBlue, .coderTextBlue:link, .coderTextBlue:visited, .coderTextBlue:hover, .coderTextBlue:active { color: #6666FF; }
+/* Green */
+.ratingTextGreen, .coderTextGreen, .coderTextGreen:link, .coderTextGreen:visited, .coderTextGreen:hover, .coderTextGreen:active { color: #00A900; }
+/* Gray */
+.ratingTextGray, .coderTextGray, .coderTextGray:link, .coderTextGray:visited, .coderTextGray:hover, .coderTextGray:active { color: #999999; }
+/* White */
+.ratingTextWhite, .coderTextWhite, .coderTextWhite:link, .coderTextWhite:visited, .coderTextWhite:hover, .coderTextWhite:active { color: #FFFFFF; }
+/* Black */
+.ratingTextBlack, .coderTextBlack, .coderTextBlack:link, .coderTextBlack:visited, .coderTextBlack:hover, .coderTextBlack:active { color: #000000; }
+/* Target */
+.ratingTextTarget, .coderTextTarget, .coderTextTarget:link, .coderTextTarget:visited, .coderTextTarget:hover, .coderTextTarget:active { color: #F02B88; }
+
+.ratingTextOrange, .ratingTextRed, .ratingTextYellow, .ratingTextBlue, .ratingTextGreen, .ratingTextGray, .ratingTextWhite, .ratingTextBlack, .ratingTextTarget {font-weight: bold; }
+
+body {color:#FFF; background-color:#001B35;}
+
+.titleLine {background-color:#093158; color: #FC3; text-decoration: none;}
+table {color:#FFF; font-size: 14px;  font-weight: normal; text-decoration: none; font-family: Arial, Helvetica, Verdana, sans-serif; line-height: 1.4;}
+div {padding:10px;}
+td {padding:0 10px 0 10px;}
+
+h2 {font-size: 18px;}
+
+a {color:#FFF; text-decoration: none;}
+
+.eventText { color: #FF9900;}
+.dateText { color: #00A900;}
+.backLink {color: #DDCC00; font-size: 16px;}
+.firstTable {float:left; width=500px;}
+.secondTable {float:left; width=500px;}
+.backDiv {clear:both;}

@@ -4,9 +4,10 @@ require_relative "util.rb"
 class Record
   attr_reader :round, :coder, :div, :rank
   attr_reader :point, :points, :cha, :old_rate, :new_rate, :vol, :advanced
+  attr_reader :cha_points
 
   def initialize(round, coder, div, rank, point,
-                 points, cha, old_rate, new_rate, vol, advanced)
+                 points, cha, old_rate, new_rate, vol, advanced, cha_points)
     @round = round
     @coder = coder
     @div = div
@@ -18,6 +19,7 @@ class Record
     @new_rate = new_rate
     @vol = vol
     @advanced = advanced
+    @cha_points = cha_points
   end
 
   def round_id
@@ -44,10 +46,6 @@ class Record
     DateTime.new(*(@round.date.split(/ |:|-/).map(&:to_i)))
   end
 
-  def cha_points
-    @cha[0] * 50 - @cha[1] * 25
-  end
-
   def submits
     @points.count {|st| st != "Opened" && st != "Unopened" && st != "Compiled"}
   end
@@ -67,6 +65,10 @@ class Record
   def cha_text
     (@cha[0] == 0 ? "0" : "+" + @cha[0].to_s) + "/" +
       (@cha[1] == 0 ? "0" : "-" + @cha[1].to_s)
+  end
+
+  def onsite?
+    @round.onsite?
   end
 
   def table_string_round

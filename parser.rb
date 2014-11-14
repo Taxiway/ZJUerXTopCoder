@@ -60,9 +60,10 @@ class Parser
         new_rate = str.match(/(?<=<new_rating>).*?(?=<)/)[0].to_i
         vol = str.match(/(?<=<new_vol>).*?(?=<)/)[0].to_i
         advanced = str.match(/(?<=<advanced>).*?(?=<)/)[0]
+        cha_points = str.match(/(?<=<challenge_points>).*?(?=<)/)[0].to_i
 
         record = Record.new(round, coder, div, rank, point, points, cha,
-                            old_rate, new_rate, vol, advanced)
+                            old_rate, new_rate, vol, advanced, cha_points)
         round.add_record(record)
         coder_map[coder_id].add_record(record)
       end

@@ -3,7 +3,7 @@ require_relative 'util.rb'
 
 class Coder
   attr_reader :id, :name, :rating, :max_rating, :submits
-  attr_reader :events, :events_ly, :color_change
+  attr_reader :events, :events_ly, :color_change, :cha_points
 
   def initialize(id, name)
     @id = id
@@ -23,6 +23,7 @@ class Coder
     @deuce = Hash.new(0)
     @lose = Hash.new(0)
     @color_change = 0
+    @cha_points = 0
   end
 
   def handle_record(record)
@@ -37,6 +38,8 @@ class Coder
     @cha_suc += record.cha_suc
     @cha_fail += record.cha_fail
     @color_change += 1 if Util.rating_color(@rating) != Util.rating_color(record.old_rate)
+    @last_event = record.round.date
+    @cha_points += record.cha_points
   end
 
   def dual(rec, records)
@@ -74,15 +77,11 @@ class Coder
     end
   end
 
-  def cha_points
-    @cha_suc * 50 - @cha_fail * 25
-  end
-
   def cha_points_avg
     if @events == 0
       0
     else
-      cha_points.to_f / @events
+      @cha_points.to_f / @events
     end
   end
 
@@ -102,6 +101,70 @@ class Coder
     limit = DateTime.now
     6.times {limit = limit.prev_month}
     !@records.empty? && @records.last.date >= limit
+  end
+
+  def handle_html_inner_link
+    "<a href=\"../coder/#{@id}.html\" class=\"ratingText#{Util.rating_color(@rating)}\">#{@name}</a>"
+  end
+
+  def rating_html
+    "<span class=\"ratingText#{Util.rating_color(@rating)}\">#{@rating}</span>"
+  end
+
+  def max_rating_html
+    "<span class=\"ratingText#{Util.rating_color(@max_rating)}\">#{@max_rating}</span>"
+  end
+
+  def events_html
+    "<span>#{@events}</span>"
+  end
+
+  def events_ly_html
+    "<span>#{@events_ly}</span>"
+  end
+
+  def cha_suc_html
+    "<span>#{@cha_suc}</span>"
+  end
+
+  def cha_fail_html
+    "<span>#{@cha_fail}</span>"
+  end
+
+  def cha_total_html
+    "<span>#{cha_number}</span>"
+  end
+
+  def cha_points_html
+    "<span>#{cha_points.to_s.reverse.gsub(/...(?=.)/,'\&,').reverse}.00</span>"
+  end
+
+  def cha_points_avg_html
+    "<span>#{cha_points_avg.round(3)}</span>"
+  end
+
+  def cha_suc_rate_html
+    "<span>#{cha_suc_rate}%</span>"
+  end
+
+  def last_event_html
+    "<span class=\"eventText\">#{@last_event}</span>"
+  end
+
+  def solves_html
+    "<span>#{@solves}</span>"
+  end
+
+  def submits_html
+    "<span>#{@submits}</span>"
+  end
+
+  def suc_rate_html
+    "<span>#{suc_rate}%</span>"
+  end
+
+  def color_change_html
+    "<span>#{@color_change}</span>"
   end
 
   def stat_table_html
