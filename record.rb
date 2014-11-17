@@ -71,6 +71,34 @@ class Record
     @round.onsite?
   end
 
+  def handle_html_inner_link
+    "<a href=\"../coder/#{@coder.id}.html\" class=\"ratingText#{Util.rating_color(@old_rate)}\">#{@coder.name}</a>"
+  end
+
+  def round_coder_html
+    "<a href=\"http://www.topcoder.com/stat?c=coder_room_stats&rd=#{@round.id}&cr=#{@coder.id}\" class=\"eventText\">#{@round.name}</span>"
+  end
+
+  def div_html
+    "<span>#{@div}</span>"
+  end
+
+  def cha_points_html
+    "<span>#{@cha_points.to_s.reverse.gsub(/...(?=.)/,'\&,').reverse}.00</span>"
+  end
+
+  def cha_suc_html
+    "<span>#{@cha[0]}</span>"
+  end
+
+  def cha_fail_html
+    "<span>#{@cha[1]}</span>"
+  end
+
+  def vol_html
+    "<span>#{@vol}</span>"
+  end
+
   def table_string_round
     s1 = <<END
 	<tr>

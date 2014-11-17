@@ -137,6 +137,19 @@ END
     gen_rank_html("chameleons", "Top 20 chameleons",
                   @top_cham, ["Rank", "Handle", "# changes"],
                   [:handle_html_inner_link, :color_change_html])
+
+    gen_rank_html("chapointsin1event", "Top 20 challenge points in one event",
+                  @top_cha_records, ["Rank", "Handle", "Event", "Division",
+                    "Challenge points", "# succ. challenges",
+                    "# failed challenges"],
+                  [:handle_html_inner_link, :round_coder_html, :div_html,
+                    :cha_points_html, :cha_suc_html, :cha_fail_html])
+    gen_rank_html("volatile", "Top 20 most volatile",
+                  @top_vol, ["Rank", "Handle", "Event", "Division",
+                    "Volatility"],
+                  [:handle_html_inner_link, :round_coder_html, :div_html,
+                    :vol_html])
+
   end
 
   def gen_all(rounds, coders)
