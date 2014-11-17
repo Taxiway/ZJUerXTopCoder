@@ -73,7 +73,7 @@ class Coder
     if @submits == 0
       0
     else
-      (@solves * 100.0 / @submits).round(2)
+      @solves * 100.0 / @submits
     end
   end
 
@@ -89,7 +89,7 @@ class Coder
     if cha_number == 0
       0
     else
-      (@cha_suc * 100.0 / cha_number).round(2)
+      @cha_suc * 100.0 / cha_number
     end
   end
 
@@ -140,11 +140,11 @@ class Coder
   end
 
   def cha_points_avg_html
-    "<span>#{cha_points_avg.round(3)}</span>"
+    "<span>#{sprintf('%.3f', cha_points_avg)}</span>"
   end
 
   def cha_suc_rate_html
-    "<span>#{cha_suc_rate}%</span>"
+    "<span>#{sprintf('%.2f', cha_suc_rate)}%</span>"
   end
 
   def last_event_html
@@ -160,7 +160,7 @@ class Coder
   end
 
   def suc_rate_html
-    "<span>#{suc_rate}%</span>"
+    "<span>#{sprintf('%.2f', suc_rate)}%</span>"
   end
 
   def color_change_html
@@ -200,7 +200,7 @@ class Coder
 	<tr>
 		<td><span>#{@submits}</span></td>
 		<td><span>#{@solves}</span></td>
-		<td><span>#{suc_rate}%</span></td>
+		<td><span>#{sprintf('%.2f', suc_rate)}%</span></td>
 	</tr>
 	<tr class="titleLine">
 		<td><span># challenges</span></td>
@@ -210,7 +210,7 @@ class Coder
 	<tr>
 		<td><span>#{cha_number}</span></td>
 		<td><span>#{@cha_suc}</span></td>
-		<td><span>#{cha_suc_rate}%</span></td>
+		<td><span>#{sprintf('%.2f', cha_suc_rate)}%</span></td>
 	</tr>
 </tbody></table></div>
 END
