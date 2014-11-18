@@ -1,7 +1,8 @@
 require_relative "html_strings.rb"
 
 class Round
-  attr_reader :id, :name, :type, :date
+  attr_reader :id, :name, :type, :date, :index
+  @@count = 0
 
   def initialize(id, name, type, date)
     @id = id
@@ -10,6 +11,8 @@ class Round
     @type = type
     @date = date
     @records = {1 => Array.new, 2 => Array.new}
+    @index = @@count
+    @@count += 1
   end
 
   def has_records?

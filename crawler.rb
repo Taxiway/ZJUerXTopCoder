@@ -94,7 +94,8 @@ class Crawler
   end
 
   def init_directory
-    ["Rounds", "Coders", "HTML", "HTML/round", "HTML/coder", "HTML/stats"].each do |dir|
+    ["Rounds", "Coders", "HTML", "HTML/round", "HTML/coder", "HTML/stats",
+      "History"].each do |dir|
       FileUtils.mkdir(dir) if (!File.exist?(dir))
     end
   end
@@ -111,9 +112,3 @@ class Crawler
   end
 end
 
-crawler = Crawler.new
-rounds = crawler.crawl_content_data
-parser = Parser.new
-coders = parser.parse_rounds(rounds)
-generator = HtmlGenerator.new
-generator.gen_all(rounds, coders)

@@ -1,4 +1,5 @@
 require_relative 'record.rb'
+require_relative 'util.rb'
 
 class Parser
 
@@ -13,6 +14,25 @@ class Parser
       coder_map[id] = Coder.new(id, name)
     end
     coder_map
+  end
+
+  def write_history(coders)
+    coders.each do |coder|
+      File.open("History/#{coder.name.downcase}.xtx", "w") do |f|
+        f.write("#{coder.name}\n")
+        f.write("#{coder.id}\n")
+        f.write("ratingText#{Util.rating_color(coder.rating)}\n")
+        coder.records.reverse_each do |record|
+          f.write("#{record.round.index}\n")
+          f.write("#{record.round.id}\n")
+          f.write("#{record.round.name}\n")
+          f.write("#{record.div}\n")
+          f.write("#{record.rank}\n")
+          f.write("#{record.point}\n")
+          f.write("ratingText#{Util.rating_color(record.new_rating)}\n")
+        end
+      end
+    end
   end
 
   def parse_rounds(rounds)
@@ -69,6 +89,7 @@ class Parser
       end
       round.dual(coder_map)
     end
+    write_history(coder_map.values.select {|coder| coder.has_records?})
     coder_map
   end
 end

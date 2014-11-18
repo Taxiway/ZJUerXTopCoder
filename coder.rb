@@ -3,7 +3,7 @@ require_relative 'util.rb'
 
 class Coder
   attr_reader :id, :name, :rating, :max_rating, :submits
-  attr_reader :events, :events_ly, :color_change, :cha_points
+  attr_reader :events, :events_ly, :color_change, :cha_points, :records
 
   def initialize(id, name)
     @id = id
