@@ -3,11 +3,11 @@ require_relative "util.rb"
 
 class Record
   attr_reader :round, :coder, :div, :rank
-  attr_reader :point, :points, :cha, :old_rate, :new_rate, :vol, :advanced
+  attr_reader :point, :points, :cha, :old_rating, :new_rating, :vol, :advanced
   attr_reader :cha_points
 
   def initialize(round, coder, div, rank, point,
-                 points, cha, old_rate, new_rate, vol, advanced, cha_points)
+                 points, cha, old_rating, new_rating, vol, advanced, cha_points)
     @round = round
     @coder = coder
     @div = div
@@ -15,8 +15,8 @@ class Record
     @point = point
     @points = points
     @cha = cha
-    @old_rate = old_rate
-    @new_rate = new_rate
+    @old_rating = old_rating
+    @new_rating = new_rating
     @vol = vol
     @advanced = advanced
     @cha_points = cha_points
@@ -72,7 +72,7 @@ class Record
   end
 
   def handle_html_inner_link
-    "<a href=\"../coder/#{@coder.id}.html\" class=\"ratingText#{Util.rating_color(@old_rate)}\">#{@coder.name}</a>"
+    "<a href=\"../coder/#{@coder.id}.html\" class=\"ratingText#{Util.rating_color(@new_rating)}\">#{@coder.name}</a>"
   end
 
   def round_coder_html
@@ -99,11 +99,23 @@ class Record
     "<span>#{@vol}</span>"
   end
 
+  def date_html
+    "<span class=\"dateText\">#{@round.date}</span>"
+  end
+
+  def new_rating_html
+    "<span class=\"ratingText#{Util.rating_color(@new_rating)}\">#{@new_rating}</span>"
+  end
+
+  def rank_html
+    "<span>#{@rank}</span>"
+  end
+
   def table_string_round
     s1 = <<END
 	<tr>
 		<td><a href="http://www.topcoder.com/stat?c=coder_room_stats&rd=#{round_id}&cr=#{coder_id}">#{@rank}</a></td>
-		<td><a href="../coder/#{coder_id}.html" class="coderText#{Util.rating_color(@old_rate)}">#{coder_name}</a></td>
+		<td><a href="../coder/#{coder_id}.html" class="coderText#{Util.rating_color(@old_rating)}">#{coder_name}</a></td>
 		<td><span>#{@point}</span></td>
 END
     s2 = (type == :tour ? "<td><span>#{@advanced}</span></td>" : "")
@@ -113,9 +125,9 @@ END
 		<td><span class="statusText#{Util.status_color(@points[2])}">#{@points[2]}</span></td>
 		<td><span>#{cha_text}</span></td>
 		<td><span class="scoreText#{Util.cha_score_color(cha_points)}">#{cha_points}.0</span></td>
-		<td><span class="ratingText#{Util.rating_color(@old_rate)}">#{@old_rate}</span></td>
-		<td><span class="ratingText#{Util.rating_color(@new_rate)}">#{@new_rate}</span></td>
-		#{Util.rate_change_html(@new_rate - @old_rate)}
+		<td><span class="ratingText#{Util.rating_color(@old_rating)}">#{@old_rating}</span></td>
+		<td><span class="ratingText#{Util.rating_color(@new_rating)}">#{@new_rating}</span></td>
+		#{Util.rate_change_html(@new_rating - @old_rating)}
 		<td><span>#{@vol}</span></td>
 	</tr>
 END
@@ -134,8 +146,8 @@ END
 		<td><span class="statusText#{Util.status_color(@points[2])}">#{@points[2]}</span></td>
 		<td><span>#{cha_text}</span></td>
 		<td><span class="scoreText#{Util.cha_score_color(cha_points)}">#{cha_points}.0</span></td>
-		<td><span class="ratingText#{Util.rating_color(@new_rate)}">#{@new_rate}</span></td>
-		#{Util.rate_change_html(@new_rate - @old_rate)}
+		<td><span class="ratingText#{Util.rating_color(@new_rating)}">#{@new_rating}</span></td>
+		#{Util.rate_change_html(@new_rating - @old_rating)}
 		<td><span>#{@vol}</span></td>
 	</tr>
 END

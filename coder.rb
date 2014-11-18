@@ -27,7 +27,7 @@ class Coder
   end
 
   def handle_record(record)
-    @rating = record.new_rate
+    @rating = record.new_rating
     @max_rating = [@max_rating, @rating].max
     @events += 1
     today = DateTime.now
@@ -37,7 +37,7 @@ class Coder
     @solves += record.solves
     @cha_suc += record.cha_suc
     @cha_fail += record.cha_fail
-    @color_change += 1 if Util.rating_color(@rating) != Util.rating_color(record.old_rate)
+    @color_change += 1 if Util.rating_color(@rating) != Util.rating_color(record.old_rating)
     @last_event = record.round.date
     @cha_points += record.cha_points
   end

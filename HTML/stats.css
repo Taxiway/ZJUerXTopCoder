@@ -33,6 +33,5 @@ a {color:#FFF; text-decoration: none;}
 .eventText { color: #FF9900;}
 .dateText { color: #00A900;}
 .backLink {color: #DDCC00; font-size: 16px;}
-.firstTable {float:left; width=500px;}
-.secondTable {float:left; width=500px;}
+.rankTable {float:left; width=500px;}
 .backDiv {clear:both;}

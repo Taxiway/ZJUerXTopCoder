@@ -29,7 +29,7 @@ class Round
   end
 
   def onsite?
-    @name =~ /Finals|Semi|Wildcard|Championship/
+    @name =~ /Finals|Semi|Wildcard|Championship/ && @name =~ /TCO|TCCC/
   end
 
   def dual(coders)
