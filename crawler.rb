@@ -8,9 +8,12 @@ require "fileutils"
 
 class Crawler
 
-  CRAWL_ZJUER = false
   ROUND_LIST = %q{http://community.topcoder.com/tc?module=BasicData&c=dd_round_list}
   ROUND = %q{http://www.topcoder.com/tc?module=BasicData&c=dd_round_results&rd=}
+
+  def initialize crawl_zjuer
+    @crawl_zjuer = crawl_zjuer
+  end
 
   def crawl_round_list
     downloader = Downloader.new(ROUND_LIST)
@@ -102,7 +105,7 @@ class Crawler
 
   def crawl_content_data
     init_directory
-    crawl_zjuers if CRAWL_ZJUER
+    crawl_zjuers if @crawl_zjuer
     rounds = crawl_round_list
     rounds.each do |round|
       crawl_round(round)
