@@ -8,7 +8,7 @@ require "fileutils"
 
 class Crawler
 
-  ROUND_LIST = %q{http://community.topcoder.com/tc?module=BasicData&c=dd_round_list}
+  ROUND_LIST = %q{https://community.topcoder.com/tc?module=BasicData&c=dd_round_list}
   ROUND = %q{http://www.topcoder.com/tc?module=BasicData&c=dd_round_results&rd=}
 
   def initialize crawl_zjuer
